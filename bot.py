@@ -3,8 +3,7 @@ from discord.ext import commands
 import random
 import json
 import requests
-
-token = 'ODU0NjkwOTY0NDEyNDMyMzk0.YMnm_Q.GR-LTIb-cFzDglREKL-43DhHPvw'
+import os
 
 bot = commands.Bot(command_prefix='.')
 
@@ -92,4 +91,4 @@ async def m(ctx):
     await ctx.send('Game stoped.')
     await ctx.send(f'Congratulation! You got {score} points.')
 
-bot.run(token)
+bot.run(os.getenv('token'))

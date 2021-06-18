@@ -13,10 +13,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
 
-@bot.command()
-async def help(ctx):
-    a = "```.ping\n" + ".de <number>\n```"
-    await ctx.send(a)
+
 
 @bot.command()
 async def ping(ctx):

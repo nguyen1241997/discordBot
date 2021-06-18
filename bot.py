@@ -14,8 +14,21 @@ async def on_ready():
     print(bot.user.id)
 
 @bot.command()
+async def help(ctx):
+    cmd = "```.ping\n" + ".de <number>\n```"
+    await ctx.send(cmd)
+
+@bot.command()
 async def ping(ctx):
     await ctx.send(f'{round(bot.latency*1000)} ms')
+
+@bot.command()
+async def de(ctx, n=1):
+    await ctx.channel.purge(limit = n+1)
+
+@bot.command(description='For when you wanna settle the score some other way')
+async def choose(ctx, *choices: str):
+    await ctx.send(random.choice(choices))
 
 def get_quote():
     response = requests.get("https://zenquotes.io/api/random")
@@ -27,6 +40,11 @@ def get_quote():
 async def quote(ctx):
     quote = get_quote()
     await ctx.send(quote)
+
+@bot.command()
+async def img(ctx):
+    url = 'https://picsum.photos/id/' + str(random.randint(0,1000)) + '/1500/1000'
+    await ctx.send(url)
 
 @bot.command()
 async def m(ctx):

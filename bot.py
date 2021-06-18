@@ -4,6 +4,7 @@ import random
 import os
 import requests
 import json
+import time
 
 bot = commands.Bot(command_prefix='.')
 
@@ -15,7 +16,7 @@ async def on_ready():
 
 @bot.command()
 async def he(ctx):
-    a = "```.ping\n.adc```"
+    a = "```.ping```"
     b = "```.de <number>```"
     c = "```.choose <a> <b>```"
     d = "```.img```"
@@ -57,12 +58,14 @@ async def img(ctx):
 @bot.command()
 async def m(ctx):
     score = 0
+    await ctx.send('You have 6s to answer. Good luck!')
+    time.sleep(4)
     while(1):
         num2 = random.randint(11,99)
         num1 = random.randint(11,99)
         await ctx.send(str(num1) + ' + ' + str(num2) + ' = ?')
         try:
-            msg = await bot.wait_for('message',timeout=10)
+            msg = await bot.wait_for('message',timeout=6)
         except:
             break
         if msg.author == bot.user:

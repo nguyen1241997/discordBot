@@ -15,8 +15,8 @@ async def on_ready():
 
 @bot.command()
 async def help(ctx):
-    cmd = "```.ping\n" + ".de <number>\n```"
-    await ctx.send(cmd)
+    a = "```.ping\n" + ".de <number>\n```"
+    await ctx.send(a)
 
 @bot.command()
 async def ping(ctx):

@@ -15,7 +15,7 @@ async def on_ready():
 
 @bot.command()
 async def he(ctx):
-    a = "```.ping```"
+    a = "```.ping\n.adc```"
     b = "```.de <number>```"
     c = "```.choose <a> <b>```"
     d = "```.img```"

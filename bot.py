@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import random
 import os
+import requests
+import json
 
 bot = commands.Bot(command_prefix='.')
 
@@ -14,6 +16,17 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'{round(bot.latency*1000)} ms')
+
+def get_quote():
+    response = requests.get("https://zenquotes.io/api/random")
+    json_data = json.loads(response.text)
+    quote = json_data[0]['q'] + " - " + json_data[0]['a']
+    return quote
+
+@bot.command()
+async def quote(ctx):
+    quote = get_quote()
+    await ctx.send(quote)
 
 @bot.command()
 async def m(ctx):

@@ -15,8 +15,16 @@ async def on_ready():
 
 @bot.command()
 async def he(ctx):
-    a = "```.ping\n" + ".de <number>\n```"
+    a = "```.ping```"
+    b = "```.de <number>```"
+    c = "```.choose <a> <b>```"
+    d = "```.img```"
+    e = "```.m```"
     await ctx.send(a)
+    await ctx.send(b)
+    await ctx.send(c)
+    await ctx.send(d)
+    await ctx.send(e)
 
 @bot.command()
 async def ping(ctx):

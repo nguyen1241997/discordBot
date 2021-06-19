@@ -83,4 +83,4 @@ async def m(ctx):
     await ctx.send('Game stoped.')
     await ctx.send(f'Congratulation! You got {score} points.')
 
-bot.run(os.getenv('token'))
+#bot.run(os.getenv('token'))

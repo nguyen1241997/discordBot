@@ -5,6 +5,7 @@ import os
 import requests
 import json
 import time
+import datetime 
 
 bot = commands.Bot(command_prefix='.')
 
@@ -59,13 +60,13 @@ async def img(ctx):
 async def m(ctx):
     score = 0
     await ctx.send('You have 6s to answer. Good luck!')
-    time.sleep(4)
+    time.sleep(3)
     while(1):
         num2 = random.randint(11,99)
         num1 = random.randint(11,99)
         await ctx.send(str(num1) + ' + ' + str(num2) + ' = ?')
         try:
-            msg = await bot.wait_for('message',timeout=6)
+            msg = await bot.wait_for('message',timeout=5)
         except:
             break
         if msg.author == bot.user:
@@ -83,4 +84,61 @@ async def m(ctx):
     await ctx.send('Game stoped.')
     await ctx.send(f'Congratulation! You got {score} points.')
 
-#bot.run(os.getenv('token'))
+    
+@bot.command()
+async def wea(ctx, city):
+    url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=6013623378bf73ee1f63a2a3c08b8739"
+    response = requests.get(url)
+    json_data = json.loads(response.text)
+    
+    coordinate =  json_data['coord']
+    weather = json_data['weather'][0]
+    main = json_data['main']
+    time = json_data['timezone']
+    
+    await ctx.send("***Coordinate:***")
+    for x in coordinate:
+        await ctx.send('- ' + x + ': ' + str(coordinate[x]))
+    await ctx.send("***Weather:***")
+    
+    for x in weather:
+        if x=='id' or x=='icon': continue
+        await ctx.send('- ' + x + ': ' + str(weather[x]))
+        
+    for x in main:
+        if x=='pressure' or x=='grnd_level' or x=='sea_level': continue
+        if x=='humidity':
+            await ctx.send('- ' + x + ': ' + str(main[x]))
+        else:
+            await ctx.send('- ' + x + ': ' + str(round((main[x]-273.15),1)))
+            
+    tz = datetime.timezone(datetime.timedelta(seconds=int(time)))
+    timezone = datetime.datetime.now(tz = tz).strftime("%H:%M:%S - %m/%d/%Y")
+    await ctx.send("***Time and Date: ***")
+    await ctx.send(timezone)
+
+    
+@bot.command()
+async def covid(ctx, * , country):
+    url = "https://api.covid19api.com/summary"
+    response = requests.get(url)
+    json_data = json.loads(response.text)
+    
+    world = json_data['Global']
+    countries = json_data['Countries']
+    
+    await ctx.send("***Global:***")
+    for x in world:
+        if x=='NewRecovered' or x=='TotalRecovered': continue
+        await ctx.send('- ' + x + ': ' + str(world[x]))
+        
+    for x in countries:
+        if x['Country']==country:
+            await ctx.send('***' + country +':***')
+            for y in x:
+                if y=='ID' or y=='Country' or y=='CountryCode' or y=='Slug' or y=='NewRecovered' or y=='TotalRecovered' or y=='Premium': continue
+                await ctx.send('- ' + y + ': ' + str(x[y]))
+            break
+    
+    
+bot.run(os.getenv('token'))
